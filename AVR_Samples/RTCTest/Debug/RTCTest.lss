@@ -1,0 +1,779 @@
+
+RTCTest.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000386  00000000  00000000  00000094  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000050  00800060  00000386  0000041a  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          00000004  008000b0  008000b0  0000046a  2**0
+                  ALLOC
+  3 .comment      00000030  00000000  00000000  0000046a  2**0
+                  CONTENTS, READONLY
+  4 .debug_aranges 000000e0  00000000  00000000  0000049a  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   00000bd1  00000000  00000000  0000057a  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 000004cb  00000000  00000000  0000114b  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   00000503  00000000  00000000  00001616  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  000001d0  00000000  00000000  00001b1c  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    00000303  00000000  00000000  00001cec  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    00000c5a  00000000  00000000  00001fef  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 000000a0  00000000  00000000  00002c49  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	12 c0       	rjmp	.+36     	; 0x26 <__ctors_end>
+   2:	2c c0       	rjmp	.+88     	; 0x5c <__bad_interrupt>
+   4:	2b c0       	rjmp	.+86     	; 0x5c <__bad_interrupt>
+   6:	2a c0       	rjmp	.+84     	; 0x5c <__bad_interrupt>
+   8:	29 c0       	rjmp	.+82     	; 0x5c <__bad_interrupt>
+   a:	28 c0       	rjmp	.+80     	; 0x5c <__bad_interrupt>
+   c:	27 c0       	rjmp	.+78     	; 0x5c <__bad_interrupt>
+   e:	26 c0       	rjmp	.+76     	; 0x5c <__bad_interrupt>
+  10:	25 c0       	rjmp	.+74     	; 0x5c <__bad_interrupt>
+  12:	24 c0       	rjmp	.+72     	; 0x5c <__bad_interrupt>
+  14:	23 c0       	rjmp	.+70     	; 0x5c <__bad_interrupt>
+  16:	22 c0       	rjmp	.+68     	; 0x5c <__bad_interrupt>
+  18:	21 c0       	rjmp	.+66     	; 0x5c <__bad_interrupt>
+  1a:	20 c0       	rjmp	.+64     	; 0x5c <__bad_interrupt>
+  1c:	1f c0       	rjmp	.+62     	; 0x5c <__bad_interrupt>
+  1e:	1e c0       	rjmp	.+60     	; 0x5c <__bad_interrupt>
+  20:	1d c0       	rjmp	.+58     	; 0x5c <__bad_interrupt>
+  22:	1c c0       	rjmp	.+56     	; 0x5c <__bad_interrupt>
+  24:	1b c0       	rjmp	.+54     	; 0x5c <__bad_interrupt>
+
+00000026 <__ctors_end>:
+  26:	11 24       	eor	r1, r1
+  28:	1f be       	out	0x3f, r1	; 63
+  2a:	cf e5       	ldi	r28, 0x5F	; 95
+  2c:	d4 e0       	ldi	r29, 0x04	; 4
+  2e:	de bf       	out	0x3e, r29	; 62
+  30:	cd bf       	out	0x3d, r28	; 61
+
+00000032 <__do_copy_data>:
+  32:	10 e0       	ldi	r17, 0x00	; 0
+  34:	a0 e6       	ldi	r26, 0x60	; 96
+  36:	b0 e0       	ldi	r27, 0x00	; 0
+  38:	e6 e8       	ldi	r30, 0x86	; 134
+  3a:	f3 e0       	ldi	r31, 0x03	; 3
+  3c:	02 c0       	rjmp	.+4      	; 0x42 <__SREG__+0x3>
+  3e:	05 90       	lpm	r0, Z+
+  40:	0d 92       	st	X+, r0
+  42:	a0 3b       	cpi	r26, 0xB0	; 176
+  44:	b1 07       	cpc	r27, r17
+  46:	d9 f7       	brne	.-10     	; 0x3e <__SP_H__>
+
+00000048 <__do_clear_bss>:
+  48:	20 e0       	ldi	r18, 0x00	; 0
+  4a:	a0 eb       	ldi	r26, 0xB0	; 176
+  4c:	b0 e0       	ldi	r27, 0x00	; 0
+  4e:	01 c0       	rjmp	.+2      	; 0x52 <.do_clear_bss_start>
+
+00000050 <.do_clear_bss_loop>:
+  50:	1d 92       	st	X+, r1
+
+00000052 <.do_clear_bss_start>:
+  52:	a4 3b       	cpi	r26, 0xB4	; 180
+  54:	b2 07       	cpc	r27, r18
+  56:	e1 f7       	brne	.-8      	; 0x50 <.do_clear_bss_loop>
+  58:	f1 d0       	rcall	.+482    	; 0x23c <main>
+  5a:	93 c1       	rjmp	.+806    	; 0x382 <_exit>
+
+0000005c <__bad_interrupt>:
+  5c:	d1 cf       	rjmp	.-94     	; 0x0 <__vectors>
+
+0000005e <hex_to_char>:
+    integer += (character_array[1]-0x30);
+  }
+  else if (type == 3)
+  {
+    integer += ((character_array[0]-0x30)*100);
+    integer += ((character_array[1]-0x30)*10);
+  5e:	fb 01       	movw	r30, r22
+  60:	98 2f       	mov	r25, r24
+  62:	92 95       	swap	r25
+  64:	9f 70       	andi	r25, 0x0F	; 15
+  66:	29 2f       	mov	r18, r25
+  68:	30 e0       	ldi	r19, 0x00	; 0
+  6a:	2a 30       	cpi	r18, 0x0A	; 10
+  6c:	31 05       	cpc	r19, r1
+  6e:	1c f0       	brlt	.+6      	; 0x76 <hex_to_char+0x18>
+  70:	99 5c       	subi	r25, 0xC9	; 201
+  72:	90 83       	st	Z, r25
+  74:	02 c0       	rjmp	.+4      	; 0x7a <hex_to_char+0x1c>
+  76:	90 5d       	subi	r25, 0xD0	; 208
+  78:	90 83       	st	Z, r25
+  7a:	8f 70       	andi	r24, 0x0F	; 15
+  7c:	28 2f       	mov	r18, r24
+    integer += (character_array[2]-0x30);    
+  7e:	30 e0       	ldi	r19, 0x00	; 0
+  80:	2a 30       	cpi	r18, 0x0A	; 10
+  82:	31 05       	cpc	r19, r1
+  84:	1c f0       	brlt	.+6      	; 0x8c <hex_to_char+0x2e>
+  86:	89 5c       	subi	r24, 0xC9	; 201
+  88:	81 83       	std	Z+1, r24	; 0x01
+  }
+  else if (type == 4)
+  8a:	02 c0       	rjmp	.+4      	; 0x90 <hex_to_char+0x32>
+  8c:	80 5d       	subi	r24, 0xD0	; 208
+  {
+    integer += ((character_array[0]-0x30)*1000);
+  8e:	81 83       	std	Z+1, r24	; 0x01
+  90:	12 82       	std	Z+2, r1	; 0x02
+  92:	08 95       	ret
+
+00000094 <InitI2C>:
+unsigned char config_date[8] = "09:12:15";                 // date : month :year
+unsigned char day = 7;     // 1-sun, 2-mon, 3-tue , 4-wed, 5-thu, 6-fri, 7-sat 
+
+void InitI2C(void)
+{
+  DDRC &= ~(BIT0|BIT1);
+  94:	84 b3       	in	r24, 0x14	; 20
+  96:	8c 7f       	andi	r24, 0xFC	; 252
+  98:	84 bb       	out	0x14, r24	; 20
+  PORTC |= (BIT0|BIT1);
+  9a:	85 b3       	in	r24, 0x15	; 21
+  9c:	83 60       	ori	r24, 0x03	; 3
+  9e:	85 bb       	out	0x15, r24	; 21
+  a0:	08 95       	ret
+
+000000a2 <rtc_write>:
+
+
+void rtc_write(unsigned char addr,unsigned char data)
+{
+  
+  TWBR = 0x0F;                                        //SCL hz value set (7.3 khz)
+  a2:	9f e0       	ldi	r25, 0x0F	; 15
+  a4:	90 b9       	out	0x00, r25	; 0
+  TWSR = 0x00;                                        //prescalar value set(4)
+  a6:	11 b8       	out	0x01, r1	; 1
+  
+  //TWCR = (1<<TWINT)|(1<<TWEA)|(1<<TWSTA)|(1<<TWEN);   //Send start condition of I2C
+  TWCR = (BIT7|BIT6|BIT5|BIT2);
+  a8:	94 ee       	ldi	r25, 0xE4	; 228
+  aa:	96 bf       	out	0x36, r25	; 54
+  //while(!(TWCR &(1<<TWINT)));                         //wait untill start condition send operation 
+  while(!(TWCR & BIT7));                             
+  ac:	06 b6       	in	r0, 0x36	; 54
+  ae:	07 fe       	sbrs	r0, 7
+  b0:	fd cf       	rjmp	.-6      	; 0xac <rtc_write+0xa>
+  
+  TWDR = 0xD0;                                        //load the slave addr(RTC) to be written
+  b2:	90 ed       	ldi	r25, 0xD0	; 208
+  b4:	93 b9       	out	0x03, r25	; 3
+  //TWCR = (1<<TWINT)|(1<<TWEN);                        //Trigger send operation
+  TWCR = (BIT7|BIT2);
+  b6:	94 e8       	ldi	r25, 0x84	; 132
+  b8:	96 bf       	out	0x36, r25	; 54
+  //while(!(TWCR &(1<<TWINT)));                         //wait untill send operation to be finish      
+  while(!(TWCR & BIT7)); 
+  ba:	06 b6       	in	r0, 0x36	; 54
+  bc:	07 fe       	sbrs	r0, 7
+  be:	fd cf       	rjmp	.-6      	; 0xba <rtc_write+0x18>
+  
+  TWDR = addr;                                        //load the RTC_NV_RAM addr 
+  c0:	83 b9       	out	0x03, r24	; 3
+  //TWCR = (1<<TWINT)|(1<<TWEN);                        //Trigger send operation
+  TWCR = (BIT7|BIT2);
+  c2:	84 e8       	ldi	r24, 0x84	; 132
+  c4:	86 bf       	out	0x36, r24	; 54
+  //while(!(TWCR &(1<<TWINT)));                         //wait untill send operation to be finish
+  while(!(TWCR & BIT7));   
+  c6:	06 b6       	in	r0, 0x36	; 54
+  c8:	07 fe       	sbrs	r0, 7
+  ca:	fd cf       	rjmp	.-6      	; 0xc6 <rtc_write+0x24>
+  
+  TWDR = data;                                        //load the data
+  cc:	63 b9       	out	0x03, r22	; 3
+  //TWCR = (1<<TWINT)|(1<<TWEN);                        //Trigger send operation
+  TWCR = (BIT7|BIT2);
+  ce:	84 e8       	ldi	r24, 0x84	; 132
+  d0:	86 bf       	out	0x36, r24	; 54
+  //while(!(TWCR &(1<<TWINT)));                         //wait untill send operation to be finish
+  while(!(TWCR & BIT7));
+  d2:	06 b6       	in	r0, 0x36	; 54
+  d4:	07 fe       	sbrs	r0, 7
+  d6:	fd cf       	rjmp	.-6      	; 0xd2 <rtc_write+0x30>
+  
+  //TWCR = (1<<TWINT)|(1<<TWEA)|(1<<TWSTO)|(1<<TWEN);   //STOP the I2C,yet disabled 
+  TWCR = (BIT7|BIT6|BIT4|BIT2);    
+  d8:	84 ed       	ldi	r24, 0xD4	; 212
+  da:	86 bf       	out	0x36, r24	; 54
+  dc:	08 95       	ret
+
+000000de <rtc_read>:
+unsigned char rtc_read(unsigned char addr)
+{
+  unsigned char data;
+  //unsigned char register d=0;
+  
+  TWBR = 0x0F;                                        //SCL hz value set (7.3 khz)
+  de:	9f e0       	ldi	r25, 0x0F	; 15
+  e0:	90 b9       	out	0x00, r25	; 0
+  TWSR = 0x00;                                        //prescalar value set(4)
+  e2:	11 b8       	out	0x01, r1	; 1
+  
+  //TWCR = (1<<TWINT)|(1<<TWEA)|(1<<TWSTA)|(1<<TWEN);   //Send start condition of I2C
+  TWCR = (BIT7|BIT6|BIT5|BIT2);
+  e4:	94 ee       	ldi	r25, 0xE4	; 228
+  e6:	96 bf       	out	0x36, r25	; 54
+  //while(!(TWCR &(1<<TWINT)));                         //wait untill start condition send operation 
+  while(!(TWCR & BIT7)); 
+  e8:	06 b6       	in	r0, 0x36	; 54
+  ea:	07 fe       	sbrs	r0, 7
+  ec:	fd cf       	rjmp	.-6      	; 0xe8 <rtc_read+0xa>
+  
+  TWDR = 0xD0;                                        //load the slave addr(RTC) 
+  ee:	90 ed       	ldi	r25, 0xD0	; 208
+  f0:	93 b9       	out	0x03, r25	; 3
+  //TWCR = (1<<TWINT)|(1<<TWEN);                        //Trigger send operation
+  TWCR = (BIT7|BIT2);
+  f2:	94 e8       	ldi	r25, 0x84	; 132
+  f4:	96 bf       	out	0x36, r25	; 54
+  //while(!(TWCR &(1<<TWINT)));                         //wait untill send operation to be finish      
+  while(!(TWCR & BIT7));
+  f6:	06 b6       	in	r0, 0x36	; 54
+  f8:	07 fe       	sbrs	r0, 7
+  fa:	fd cf       	rjmp	.-6      	; 0xf6 <rtc_read+0x18>
+  
+  TWDR = addr;                                        //load the RTC_NV_RAM addr 
+  fc:	83 b9       	out	0x03, r24	; 3
+  //TWCR = (1<<TWINT)|(1<<TWEN);                        //Trigger send operation
+  TWCR = (BIT7|BIT2);
+  fe:	84 e8       	ldi	r24, 0x84	; 132
+ 100:	86 bf       	out	0x36, r24	; 54
+  //while(!(TWCR &(1<<TWINT)));                         //wait untill send operation to be finish
+  while(!(TWCR & BIT7));
+ 102:	06 b6       	in	r0, 0x36	; 54
+ 104:	07 fe       	sbrs	r0, 7
+ 106:	fd cf       	rjmp	.-6      	; 0x102 <rtc_read+0x24>
+  
+  //TWCR = (1<<TWINT)|(1<<TWEA)|(1<<TWSTA)|(1<<TWEN);   //Send start condition of I2C
+  TWCR = (BIT7|BIT6|BIT5|BIT2);
+ 108:	84 ee       	ldi	r24, 0xE4	; 228
+ 10a:	86 bf       	out	0x36, r24	; 54
+  //while(!(TWCR &(1<<TWINT)));                         //wait untill start condition send operation
+  while(!(TWCR & BIT7));
+ 10c:	06 b6       	in	r0, 0x36	; 54
+ 10e:	07 fe       	sbrs	r0, 7
+ 110:	fd cf       	rjmp	.-6      	; 0x10c <rtc_read+0x2e>
+  
+  TWDR = 0xD1;                                       //load the slave addr(RTC) to be READ
+ 112:	81 ed       	ldi	r24, 0xD1	; 209
+ 114:	83 b9       	out	0x03, r24	; 3
+  //TWCR = (1<<TWINT)|(1<<TWEN);                        //Trigger send operation
+  TWCR = (BIT7|BIT2);
+ 116:	84 e8       	ldi	r24, 0x84	; 132
+ 118:	86 bf       	out	0x36, r24	; 54
+  //while(!(TWCR &(1<<TWINT)));                         //wait untill send operation to be finish
+  while(!(TWCR & BIT7));
+ 11a:	06 b6       	in	r0, 0x36	; 54
+ 11c:	07 fe       	sbrs	r0, 7
+ 11e:	fd cf       	rjmp	.-6      	; 0x11a <rtc_read+0x3c>
+  
+  //TWCR = (1<<TWINT)|(1<<TWEN);                        //Trigger send operation
+  TWCR = (BIT7|BIT2);
+ 120:	84 e8       	ldi	r24, 0x84	; 132
+ 122:	86 bf       	out	0x36, r24	; 54
+  //while(!(TWCR &(1<<TWINT)));                         //wait untill send operation to be finish
+  while(!(TWCR & BIT7));
+ 124:	06 b6       	in	r0, 0x36	; 54
+ 126:	07 fe       	sbrs	r0, 7
+ 128:	fd cf       	rjmp	.-6      	; 0x124 <rtc_read+0x46>
+  
+  data = TWDR;
+ 12a:	83 b1       	in	r24, 0x03	; 3
+  
+  //TWCR = (1<<TWINT)|(1<<TWEA)|(1<<TWSTO)|(1<<TWEN);   //STOP the I2C,yet disabled
+  TWCR = (BIT7|BIT6|BIT4|BIT2); 
+ 12c:	94 ed       	ldi	r25, 0xD4	; 212
+ 12e:	96 bf       	out	0x36, r25	; 54
+  //TWCR = 0x00;                                      //VERY IMPORTNAT , NEED TO CHECK AGAIN
+  
+  return data;
+  
+  
+}
+ 130:	08 95       	ret
+
+00000132 <rtc_set_time>:
+
+
+void rtc_set_time(unsigned char config_time[8],unsigned char config_date[8], unsigned char day, unsigned char HOUR_MODE) 
+{
+ 132:	ff 92       	push	r15
+ 134:	0f 93       	push	r16
+ 136:	1f 93       	push	r17
+ 138:	cf 93       	push	r28
+ 13a:	df 93       	push	r29
+ 13c:	8c 01       	movw	r16, r24
+ 13e:	eb 01       	movw	r28, r22
+ 140:	f4 2e       	mov	r15, r20
+  unsigned char temp = 0,temp1 = 0;
+  
+  if (HOUR_MODE == HOUR_MODE_24)
+ 142:	21 30       	cpi	r18, 0x01	; 1
+ 144:	49 f4       	brne	.+18     	; 0x158 <rtc_set_time+0x26>
+  {
+   temp =  (config_time[0] - 0x30)<<4;
+ 146:	fc 01       	movw	r30, r24
+ 148:	90 81       	ld	r25, Z
+   temp +=  (config_time[1] - 0x30);
+ 14a:	61 81       	ldd	r22, Z+1	; 0x01
+ 14c:	60 53       	subi	r22, 0x30	; 48
+ 14e:	f0 e1       	ldi	r31, 0x10	; 16
+ 150:	9f 9f       	mul	r25, r31
+ 152:	60 0d       	add	r22, r0
+ 154:	11 24       	eor	r1, r1
+ 156:	38 c0       	rjmp	.+112    	; 0x1c8 <rtc_set_time+0x96>
+  }
+  else
+  {
+   temp =  (config_time[0] - 0x30)*10;
+ 158:	fc 01       	movw	r30, r24
+ 15a:	80 81       	ld	r24, Z
+ 15c:	88 0f       	add	r24, r24
+ 15e:	80 56       	subi	r24, 0x60	; 96
+ 160:	68 2f       	mov	r22, r24
+ 162:	66 0f       	add	r22, r22
+ 164:	66 0f       	add	r22, r22
+ 166:	86 0f       	add	r24, r22
+   temp +=  (config_time[1] - 0x30); 
+ 168:	91 81       	ldd	r25, Z+1	; 0x01
+ 16a:	68 2f       	mov	r22, r24
+ 16c:	69 0f       	add	r22, r25
+ 16e:	80 ed       	ldi	r24, 0xD0	; 208
+ 170:	86 0f       	add	r24, r22
+   if (temp >= 12)
+ 172:	8c 30       	cpi	r24, 0x0C	; 12
+ 174:	a8 f0       	brcs	.+42     	; 0x1a0 <rtc_set_time+0x6e>
+   {
+     temp -= 12;
+ 176:	6c 53       	subi	r22, 0x3C	; 60
+     temp1 = temp/10 << 4;
+ 178:	9d ec       	ldi	r25, 0xCD	; 205
+ 17a:	69 9f       	mul	r22, r25
+ 17c:	91 2d       	mov	r25, r1
+ 17e:	11 24       	eor	r1, r1
+ 180:	96 95       	lsr	r25
+ 182:	96 95       	lsr	r25
+ 184:	96 95       	lsr	r25
+     temp1 += temp%10;
+ 186:	89 2f       	mov	r24, r25
+ 188:	88 0f       	add	r24, r24
+ 18a:	28 2f       	mov	r18, r24
+ 18c:	22 0f       	add	r18, r18
+ 18e:	22 0f       	add	r18, r18
+ 190:	82 0f       	add	r24, r18
+ 192:	68 1b       	sub	r22, r24
+ 194:	f0 e1       	ldi	r31, 0x10	; 16
+ 196:	9f 9f       	mul	r25, r31
+ 198:	60 0d       	add	r22, r0
+ 19a:	11 24       	eor	r1, r1
+     temp =  temp1|BIT5|BIT6;
+ 19c:	60 66       	ori	r22, 0x60	; 96
+ 19e:	14 c0       	rjmp	.+40     	; 0x1c8 <rtc_set_time+0x96>
+   }
+   else
+   {
+     temp1 = temp/10 << 4;
+ 1a0:	9d ec       	ldi	r25, 0xCD	; 205
+ 1a2:	89 9f       	mul	r24, r25
+ 1a4:	91 2d       	mov	r25, r1
+ 1a6:	11 24       	eor	r1, r1
+ 1a8:	96 95       	lsr	r25
+ 1aa:	96 95       	lsr	r25
+ 1ac:	96 95       	lsr	r25
+     temp1 += temp%10;
+ 1ae:	29 2f       	mov	r18, r25
+ 1b0:	22 0f       	add	r18, r18
+ 1b2:	32 2f       	mov	r19, r18
+ 1b4:	33 0f       	add	r19, r19
+ 1b6:	33 0f       	add	r19, r19
+ 1b8:	23 0f       	add	r18, r19
+ 1ba:	68 2f       	mov	r22, r24
+ 1bc:	62 1b       	sub	r22, r18
+ 1be:	80 e1       	ldi	r24, 0x10	; 16
+ 1c0:	98 9f       	mul	r25, r24
+ 1c2:	60 0d       	add	r22, r0
+ 1c4:	11 24       	eor	r1, r1
+     temp = temp1|BIT6;
+ 1c6:	60 64       	ori	r22, 0x40	; 64
+   }   
+  }
+
+   rtc_write(HOURS_ADDR,temp);
+ 1c8:	82 e0       	ldi	r24, 0x02	; 2
+ 1ca:	6b df       	rcall	.-298    	; 0xa2 <rtc_write>
+   
+   temp =  (config_time[3] - 0x30)<<4;
+ 1cc:	f8 01       	movw	r30, r16
+ 1ce:	83 81       	ldd	r24, Z+3	; 0x03
+   temp +=  (config_time[4] - 0x30);
+ 1d0:	64 81       	ldd	r22, Z+4	; 0x04
+ 1d2:	60 53       	subi	r22, 0x30	; 48
+ 1d4:	f0 e1       	ldi	r31, 0x10	; 16
+ 1d6:	8f 9f       	mul	r24, r31
+ 1d8:	60 0d       	add	r22, r0
+ 1da:	11 24       	eor	r1, r1
+   rtc_write(MINUTES_ADDR,temp);
+ 1dc:	81 e0       	ldi	r24, 0x01	; 1
+ 1de:	61 df       	rcall	.-318    	; 0xa2 <rtc_write>
+   
+   temp =  (config_time[6] - 0x30)<<4;
+ 1e0:	f8 01       	movw	r30, r16
+ 1e2:	86 81       	ldd	r24, Z+6	; 0x06
+   temp +=  (config_time[7] - 0x30);
+ 1e4:	67 81       	ldd	r22, Z+7	; 0x07
+ 1e6:	60 53       	subi	r22, 0x30	; 48
+ 1e8:	f0 e1       	ldi	r31, 0x10	; 16
+ 1ea:	8f 9f       	mul	r24, r31
+ 1ec:	60 0d       	add	r22, r0
+ 1ee:	11 24       	eor	r1, r1
+   rtc_write(SECONDS_ADDR,temp);
+ 1f0:	80 e0       	ldi	r24, 0x00	; 0
+ 1f2:	57 df       	rcall	.-338    	; 0xa2 <rtc_write>
+  
+   temp =  (config_date[0] - 0x30)<<4;
+ 1f4:	88 81       	ld	r24, Y
+   temp +=  (config_date[1] - 0x30);
+ 1f6:	69 81       	ldd	r22, Y+1	; 0x01
+ 1f8:	60 53       	subi	r22, 0x30	; 48
+ 1fa:	90 e1       	ldi	r25, 0x10	; 16
+ 1fc:	89 9f       	mul	r24, r25
+ 1fe:	60 0d       	add	r22, r0
+ 200:	11 24       	eor	r1, r1
+   rtc_write(DATE_ADDR,temp);
+ 202:	84 e0       	ldi	r24, 0x04	; 4
+ 204:	4e df       	rcall	.-356    	; 0xa2 <rtc_write>
+   
+   temp =  (config_date[3] - 0x30)<<4;
+ 206:	8b 81       	ldd	r24, Y+3	; 0x03
+   temp +=  (config_date[4] - 0x30);
+ 208:	6c 81       	ldd	r22, Y+4	; 0x04
+ 20a:	60 53       	subi	r22, 0x30	; 48
+ 20c:	e0 e1       	ldi	r30, 0x10	; 16
+ 20e:	8e 9f       	mul	r24, r30
+ 210:	60 0d       	add	r22, r0
+ 212:	11 24       	eor	r1, r1
+   rtc_write(MONTH_ADDR,temp);
+ 214:	85 e0       	ldi	r24, 0x05	; 5
+ 216:	45 df       	rcall	.-374    	; 0xa2 <rtc_write>
+   
+   temp =  (config_date[6] - 0x30)<<4;
+ 218:	8e 81       	ldd	r24, Y+6	; 0x06
+   temp +=  (config_date[7] - 0x30);
+ 21a:	6f 81       	ldd	r22, Y+7	; 0x07
+ 21c:	60 53       	subi	r22, 0x30	; 48
+ 21e:	f0 e1       	ldi	r31, 0x10	; 16
+ 220:	8f 9f       	mul	r24, r31
+ 222:	60 0d       	add	r22, r0
+ 224:	11 24       	eor	r1, r1
+   rtc_write(YEAR_ADDR,temp);
+ 226:	86 e0       	ldi	r24, 0x06	; 6
+ 228:	3c df       	rcall	.-392    	; 0xa2 <rtc_write>
+   rtc_write(DAY_ADDR,day);
+ 22a:	6f 2d       	mov	r22, r15
+ 22c:	83 e0       	ldi	r24, 0x03	; 3
+ 22e:	39 df       	rcall	.-398    	; 0xa2 <rtc_write>
+}
+ 230:	df 91       	pop	r29
+ 232:	cf 91       	pop	r28
+ 234:	1f 91       	pop	r17
+ 236:	0f 91       	pop	r16
+ 238:	ff 90       	pop	r15
+ 23a:	08 95       	ret
+
+0000023c <main>:
+
+
+
+void main()
+{
+  init_usart(BAUD_9600);
+ 23c:	83 e3       	ldi	r24, 0x33	; 51
+ 23e:	90 e0       	ldi	r25, 0x00	; 0
+ 240:	74 d0       	rcall	.+232    	; 0x32a <init_usart>
+  InitI2C();  // Initialise I2C port
+ 242:	28 df       	rcall	.-432    	; 0x94 <InitI2C>
+  rtc_set_time(config_time,config_date,day,HOUR_MODE_24);     //Function to set RTC time.
+ 244:	21 e0       	ldi	r18, 0x01	; 1
+ 246:	40 91 60 00 	lds	r20, 0x0060
+ 24a:	61 e6       	ldi	r22, 0x61	; 97
+ 24c:	70 e0       	ldi	r23, 0x00	; 0
+ 24e:	89 e6       	ldi	r24, 0x69	; 105
+ 250:	90 e0       	ldi	r25, 0x00	; 0
+ 252:	6f df       	rcall	.-290    	; 0x132 <rtc_set_time>
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+ 254:	2f ef       	ldi	r18, 0xFF	; 255
+ 256:	89 e6       	ldi	r24, 0x69	; 105
+ 258:	98 e1       	ldi	r25, 0x18	; 24
+ 25a:	21 50       	subi	r18, 0x01	; 1
+ 25c:	80 40       	sbci	r24, 0x00	; 0
+ 25e:	90 40       	sbci	r25, 0x00	; 0
+ 260:	e1 f7       	brne	.-8      	; 0x25a <main+0x1e>
+ 262:	00 c0       	rjmp	.+0      	; 0x264 <main+0x28>
+ 264:	00 00       	nop
+                                                              //Comment the function after setting the time
+                                                              //otherwise each time the code is resetted, RTC starts from the 
+                                                              //set time in the program.  
+      _delay_ms(1000);
+      print_uart("This program is developed by Elementz ");
+ 266:	81 e7       	ldi	r24, 0x71	; 113
+ 268:	90 e0       	ldi	r25, 0x00	; 0
+ 26a:	79 d0       	rcall	.+242    	; 0x35e <print_uart>
+  
+  while(1)
+  {
+    send2uart("TIME:  ");
+ 26c:	88 e9       	ldi	r24, 0x98	; 152
+ 26e:	90 e0       	ldi	r25, 0x00	; 0
+ 270:	68 d0       	rcall	.+208    	; 0x342 <send2uart>
+    data = rtc_read(HOURS_ADDR);            //reading hour from DS1307
+ 272:	82 e0       	ldi	r24, 0x02	; 2
+ 274:	34 df       	rcall	.-408    	; 0xde <rtc_read>
+ 276:	80 93 b0 00 	sts	0x00B0, r24
+    hex_to_char(data,character_array);
+ 27a:	61 eb       	ldi	r22, 0xB1	; 177
+ 27c:	70 e0       	ldi	r23, 0x00	; 0
+ 27e:	ef de       	rcall	.-546    	; 0x5e <hex_to_char>
+    send2uart(character_array);
+ 280:	81 eb       	ldi	r24, 0xB1	; 177
+ 282:	90 e0       	ldi	r25, 0x00	; 0
+ 284:	5e d0       	rcall	.+188    	; 0x342 <send2uart>
+    send2uart(":");
+ 286:	80 ea       	ldi	r24, 0xA0	; 160
+ 288:	90 e0       	ldi	r25, 0x00	; 0
+ 28a:	5b d0       	rcall	.+182    	; 0x342 <send2uart>
+    
+
+     data = rtc_read(MINUTES_ADDR);            // reading minute from Ds1307
+ 28c:	81 e0       	ldi	r24, 0x01	; 1
+ 28e:	27 df       	rcall	.-434    	; 0xde <rtc_read>
+ 290:	80 93 b0 00 	sts	0x00B0, r24
+    hex_to_char(data,character_array);
+ 294:	61 eb       	ldi	r22, 0xB1	; 177
+ 296:	70 e0       	ldi	r23, 0x00	; 0
+ 298:	e2 de       	rcall	.-572    	; 0x5e <hex_to_char>
+    send2uart(character_array);
+ 29a:	81 eb       	ldi	r24, 0xB1	; 177
+ 29c:	90 e0       	ldi	r25, 0x00	; 0
+ 29e:	51 d0       	rcall	.+162    	; 0x342 <send2uart>
+    send2uart(":");
+ 2a0:	80 ea       	ldi	r24, 0xA0	; 160
+ 2a2:	90 e0       	ldi	r25, 0x00	; 0
+ 2a4:	4e d0       	rcall	.+156    	; 0x342 <send2uart>
+    
+    data = rtc_read(SECONDS_ADDR);            // reading seconds from Ds1307
+ 2a6:	80 e0       	ldi	r24, 0x00	; 0
+ 2a8:	1a df       	rcall	.-460    	; 0xde <rtc_read>
+ 2aa:	80 93 b0 00 	sts	0x00B0, r24
+    hex_to_char(data,character_array);
+ 2ae:	61 eb       	ldi	r22, 0xB1	; 177
+ 2b0:	70 e0       	ldi	r23, 0x00	; 0
+ 2b2:	d5 de       	rcall	.-598    	; 0x5e <hex_to_char>
+    send2uart(character_array);
+ 2b4:	81 eb       	ldi	r24, 0xB1	; 177
+ 2b6:	90 e0       	ldi	r25, 0x00	; 0
+ 2b8:	44 d0       	rcall	.+136    	; 0x342 <send2uart>
+    send2uart("   ");   
+ 2ba:	82 ea       	ldi	r24, 0xA2	; 162
+ 2bc:	90 e0       	ldi	r25, 0x00	; 0
+ 2be:	41 d0       	rcall	.+130    	; 0x342 <send2uart>
+    
+    
+    send2uart("DATE:  ");
+ 2c0:	86 ea       	ldi	r24, 0xA6	; 166
+ 2c2:	90 e0       	ldi	r25, 0x00	; 0
+ 2c4:	3e d0       	rcall	.+124    	; 0x342 <send2uart>
+    data = rtc_read(DATE_ADDR);            // reading date from Ds1307
+ 2c6:	84 e0       	ldi	r24, 0x04	; 4
+ 2c8:	0a df       	rcall	.-492    	; 0xde <rtc_read>
+ 2ca:	80 93 b0 00 	sts	0x00B0, r24
+    hex_to_char(data,character_array);
+ 2ce:	61 eb       	ldi	r22, 0xB1	; 177
+ 2d0:	70 e0       	ldi	r23, 0x00	; 0
+ 2d2:	c5 de       	rcall	.-630    	; 0x5e <hex_to_char>
+    send2uart(character_array);
+ 2d4:	81 eb       	ldi	r24, 0xB1	; 177
+ 2d6:	90 e0       	ldi	r25, 0x00	; 0
+ 2d8:	34 d0       	rcall	.+104    	; 0x342 <send2uart>
+    send2uart("/");
+ 2da:	8e ea       	ldi	r24, 0xAE	; 174
+ 2dc:	90 e0       	ldi	r25, 0x00	; 0
+ 2de:	31 d0       	rcall	.+98     	; 0x342 <send2uart>
+    
+    data = rtc_read(MONTH_ADDR);             // reading Month from Ds1307
+ 2e0:	85 e0       	ldi	r24, 0x05	; 5
+ 2e2:	fd de       	rcall	.-518    	; 0xde <rtc_read>
+ 2e4:	80 93 b0 00 	sts	0x00B0, r24
+    hex_to_char(data,character_array);
+ 2e8:	61 eb       	ldi	r22, 0xB1	; 177
+ 2ea:	70 e0       	ldi	r23, 0x00	; 0
+ 2ec:	b8 de       	rcall	.-656    	; 0x5e <hex_to_char>
+    send2uart(character_array);
+ 2ee:	81 eb       	ldi	r24, 0xB1	; 177
+ 2f0:	90 e0       	ldi	r25, 0x00	; 0
+ 2f2:	27 d0       	rcall	.+78     	; 0x342 <send2uart>
+      send2uart("/");
+ 2f4:	8e ea       	ldi	r24, 0xAE	; 174
+ 2f6:	90 e0       	ldi	r25, 0x00	; 0
+ 2f8:	24 d0       	rcall	.+72     	; 0x342 <send2uart>
+    
+     data = rtc_read(YEAR_ADDR);             // reading Year from Ds1307
+ 2fa:	86 e0       	ldi	r24, 0x06	; 6
+ 2fc:	f0 de       	rcall	.-544    	; 0xde <rtc_read>
+ 2fe:	80 93 b0 00 	sts	0x00B0, r24
+    hex_to_char(data,character_array);
+ 302:	61 eb       	ldi	r22, 0xB1	; 177
+ 304:	70 e0       	ldi	r23, 0x00	; 0
+ 306:	ab de       	rcall	.-682    	; 0x5e <hex_to_char>
+    send2uart(character_array);
+ 308:	81 eb       	ldi	r24, 0xB1	; 177
+ 30a:	90 e0       	ldi	r25, 0x00	; 0
+ 30c:	1a d0       	rcall	.+52     	; 0x342 <send2uart>
+    
+    usart_putchar(0x0D);
+ 30e:	8d e0       	ldi	r24, 0x0D	; 13
+ 310:	14 d0       	rcall	.+40     	; 0x33a <usart_putchar>
+    usart_putchar(0x0A);
+ 312:	8a e0       	ldi	r24, 0x0A	; 10
+ 314:	12 d0       	rcall	.+36     	; 0x33a <usart_putchar>
+ 316:	2f ef       	ldi	r18, 0xFF	; 255
+ 318:	89 e6       	ldi	r24, 0x69	; 105
+ 31a:	98 e1       	ldi	r25, 0x18	; 24
+ 31c:	21 50       	subi	r18, 0x01	; 1
+ 31e:	80 40       	sbci	r24, 0x00	; 0
+ 320:	90 40       	sbci	r25, 0x00	; 0
+ 322:	e1 f7       	brne	.-8      	; 0x31c <main+0xe0>
+ 324:	00 c0       	rjmp	.+0      	; 0x326 <main+0xea>
+ 326:	00 00       	nop
+ 328:	a1 cf       	rjmp	.-190    	; 0x26c <main+0x30>
+
+0000032a <init_usart>:
+    // Communication Parameters: 8 Data, 1 Stop, No Parity   
+    // USART Receiver: Off   
+    // USART Transmitter: On   
+    // USART Mode: Asynchronous   
+    // USART Baud rate: baud   
+    UCSRA=(0x00);   
+ 32a:	1b b8       	out	0x0b, r1	; 11
+    UCSRB=0x98;   
+ 32c:	28 e9       	ldi	r18, 0x98	; 152
+ 32e:	2a b9       	out	0x0a, r18	; 10
+    UCSRC=0x86;   
+ 330:	26 e8       	ldi	r18, 0x86	; 134
+ 332:	20 bd       	out	0x20, r18	; 32
+    UBRRH=baud>>8;   
+ 334:	90 bd       	out	0x20, r25	; 32
+    UBRRL=baud;  
+ 336:	89 b9       	out	0x09, r24	; 9
+ 338:	08 95       	ret
+
+0000033a <usart_putchar>:
+    //fdevopen(usart_putchar, NULL, 0);   
+}
+ 
+void usart_putchar(char data)   
+{   
+   while(!(UCSRA & BIT5));
+ 33a:	5d 9b       	sbis	0x0b, 5	; 11
+ 33c:	fe cf       	rjmp	.-4      	; 0x33a <usart_putchar>
+   //Now write the data to USART buffer
+   UDR=data;      
+ 33e:	8c b9       	out	0x0c, r24	; 12
+ 340:	08 95       	ret
+
+00000342 <send2uart>:
+} 
+
+void send2uart(char *buffer)
+{
+ 342:	cf 93       	push	r28
+ 344:	df 93       	push	r29
+ 346:	ec 01       	movw	r28, r24
+  int i;
+//  for (i=0;i<strlen(buffer);i++)
+  for (i=0;buffer[i] != '\0' ;i++)
+ 348:	88 81       	ld	r24, Y
+ 34a:	88 23       	and	r24, r24
+ 34c:	29 f0       	breq	.+10     	; 0x358 <send2uart+0x16>
+ 34e:	21 96       	adiw	r28, 0x01	; 1
+  usart_putchar(buffer[i]);
+ 350:	f4 df       	rcall	.-24     	; 0x33a <usart_putchar>
+
+void send2uart(char *buffer)
+{
+  int i;
+//  for (i=0;i<strlen(buffer);i++)
+  for (i=0;buffer[i] != '\0' ;i++)
+ 352:	89 91       	ld	r24, Y+
+ 354:	81 11       	cpse	r24, r1
+ 356:	fc cf       	rjmp	.-8      	; 0x350 <send2uart+0xe>
+  usart_putchar(buffer[i]);
+}
+ 358:	df 91       	pop	r29
+ 35a:	cf 91       	pop	r28
+ 35c:	08 95       	ret
+
+0000035e <print_uart>:
+  send2uart(buffer);
+  usart_putchar(0x0D);
+}
+
+void print_uart(char *buffer)
+{
+ 35e:	cf 93       	push	r28
+ 360:	df 93       	push	r29
+ 362:	ec 01       	movw	r28, r24
+  int i;
+//  for (i=0;i<strlen(buffer);i++)
+  for (i=0;buffer[i] != '\0' ;i++)
+ 364:	88 81       	ld	r24, Y
+ 366:	88 23       	and	r24, r24
+ 368:	29 f0       	breq	.+10     	; 0x374 <print_uart+0x16>
+ 36a:	21 96       	adiw	r28, 0x01	; 1
+  usart_putchar(buffer[i]);
+ 36c:	e6 df       	rcall	.-52     	; 0x33a <usart_putchar>
+
+void print_uart(char *buffer)
+{
+  int i;
+//  for (i=0;i<strlen(buffer);i++)
+  for (i=0;buffer[i] != '\0' ;i++)
+ 36e:	89 91       	ld	r24, Y+
+ 370:	81 11       	cpse	r24, r1
+ 372:	fc cf       	rjmp	.-8      	; 0x36c <print_uart+0xe>
+  usart_putchar(buffer[i]);
+  usart_putchar(0x0D);
+ 374:	8d e0       	ldi	r24, 0x0D	; 13
+ 376:	e1 df       	rcall	.-62     	; 0x33a <usart_putchar>
+  usart_putchar(0x0A);
+ 378:	8a e0       	ldi	r24, 0x0A	; 10
+ 37a:	df df       	rcall	.-66     	; 0x33a <usart_putchar>
+  }
+ 37c:	df 91       	pop	r29
+ 37e:	cf 91       	pop	r28
+ 380:	08 95       	ret
+
+00000382 <_exit>:
+ 382:	f8 94       	cli
+
+00000384 <__stop_program>:
+ 384:	ff cf       	rjmp	.-2      	; 0x384 <__stop_program>

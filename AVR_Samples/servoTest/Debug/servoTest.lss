@@ -1,0 +1,155 @@
+
+servoTest.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000088  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .comment      00000030  00000000  00000000  000000dc  2**0
+                  CONTENTS, READONLY
+  2 .debug_aranges 00000058  00000000  00000000  0000010c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  3 .debug_info   0000026d  00000000  00000000  00000164  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  4 .debug_abbrev 000001b6  00000000  00000000  000003d1  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_line   00000229  00000000  00000000  00000587  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_frame  00000078  00000000  00000000  000007b0  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_str    000001ec  00000000  00000000  00000828  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_loc    0000008f  00000000  00000000  00000a14  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_ranges 00000038  00000000  00000000  00000aa3  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	12 c0       	rjmp	.+36     	; 0x26 <__ctors_end>
+   2:	19 c0       	rjmp	.+50     	; 0x36 <__bad_interrupt>
+   4:	18 c0       	rjmp	.+48     	; 0x36 <__bad_interrupt>
+   6:	17 c0       	rjmp	.+46     	; 0x36 <__bad_interrupt>
+   8:	16 c0       	rjmp	.+44     	; 0x36 <__bad_interrupt>
+   a:	15 c0       	rjmp	.+42     	; 0x36 <__bad_interrupt>
+   c:	14 c0       	rjmp	.+40     	; 0x36 <__bad_interrupt>
+   e:	13 c0       	rjmp	.+38     	; 0x36 <__bad_interrupt>
+  10:	12 c0       	rjmp	.+36     	; 0x36 <__bad_interrupt>
+  12:	11 c0       	rjmp	.+34     	; 0x36 <__bad_interrupt>
+  14:	10 c0       	rjmp	.+32     	; 0x36 <__bad_interrupt>
+  16:	0f c0       	rjmp	.+30     	; 0x36 <__bad_interrupt>
+  18:	0e c0       	rjmp	.+28     	; 0x36 <__bad_interrupt>
+  1a:	0d c0       	rjmp	.+26     	; 0x36 <__bad_interrupt>
+  1c:	0c c0       	rjmp	.+24     	; 0x36 <__bad_interrupt>
+  1e:	0b c0       	rjmp	.+22     	; 0x36 <__bad_interrupt>
+  20:	0a c0       	rjmp	.+20     	; 0x36 <__bad_interrupt>
+  22:	09 c0       	rjmp	.+18     	; 0x36 <__bad_interrupt>
+  24:	08 c0       	rjmp	.+16     	; 0x36 <__bad_interrupt>
+
+00000026 <__ctors_end>:
+  26:	11 24       	eor	r1, r1
+  28:	1f be       	out	0x3f, r1	; 63
+  2a:	cf e5       	ldi	r28, 0x5F	; 95
+  2c:	d4 e0       	ldi	r29, 0x04	; 4
+  2e:	de bf       	out	0x3e, r29	; 62
+  30:	cd bf       	out	0x3d, r28	; 61
+  32:	11 d0       	rcall	.+34     	; 0x56 <main>
+  34:	27 c0       	rjmp	.+78     	; 0x84 <_exit>
+
+00000036 <__bad_interrupt>:
+  36:	e4 cf       	rjmp	.-56     	; 0x0 <__vectors>
+
+00000038 <change_speed_pwm1>:
+    Motor_PWM1 = lower_bound;  
+}
+
+void change_speed_pwm1(int speed)
+{
+  Motor_PWM1 = speed;
+  38:	99 bd       	out	0x29, r25	; 41
+  3a:	88 bd       	out	0x28, r24	; 40
+  3c:	08 95       	ret
+
+0000003e <init_hardware_pwm1>:
+
+//void 
+
+void init_hardware_pwm1(void)
+{
+  TCCR1A |= (BIT7|BIT5|BIT1);      // configuration for timer on compare mode for pwm configuration
+  3e:	8f b5       	in	r24, 0x2f	; 47
+  40:	82 6a       	ori	r24, 0xA2	; 162
+  42:	8f bd       	out	0x2f, r24	; 47
+  TCCR1B |= (BIT4|BIT3|BIT1|BIT0);
+  44:	8e b5       	in	r24, 0x2e	; 46
+  46:	8b 61       	ori	r24, 0x1B	; 27
+  48:	8e bd       	out	0x2e, r24	; 46
+  
+  
+  
+  ICR1=2499;                      // selecting pwm period to 20 ms 
+  4a:	83 ec       	ldi	r24, 0xC3	; 195
+  4c:	99 e0       	ldi	r25, 0x09	; 9
+  4e:	97 bd       	out	0x27, r25	; 39
+  50:	86 bd       	out	0x26, r24	; 38
+  
+  DDRB|=(BIT2);              // Pwm out to output PORTD4 and PORTD5
+  52:	ba 9a       	sbi	0x17, 2	; 23
+  54:	08 95       	ret
+
+00000056 <main>:
+#include <util/delay.h>
+#include "pwm.h"
+
+int main(void)
+{
+	init_hardware_pwm1();
+  56:	f3 df       	rcall	.-26     	; 0x3e <init_hardware_pwm1>
+	Explain the concept of pull up	 
+	*/
+	
+    while(1) 
+    {
+		for (int i = 100 ; i< 250; i++){
+  58:	c4 e6       	ldi	r28, 0x64	; 100
+  5a:	d0 e0       	ldi	r29, 0x00	; 0
+  5c:	04 e6       	ldi	r16, 0x64	; 100
+  5e:	10 e0       	ldi	r17, 0x00	; 0
+			change_speed_pwm1(i);
+  60:	ce 01       	movw	r24, r28
+  62:	ea df       	rcall	.-44     	; 0x38 <change_speed_pwm1>
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+  64:	2f ef       	ldi	r18, 0xFF	; 255
+  66:	80 e7       	ldi	r24, 0x70	; 112
+  68:	92 e0       	ldi	r25, 0x02	; 2
+  6a:	21 50       	subi	r18, 0x01	; 1
+  6c:	80 40       	sbci	r24, 0x00	; 0
+  6e:	90 40       	sbci	r25, 0x00	; 0
+  70:	e1 f7       	brne	.-8      	; 0x6a <main+0x14>
+  72:	00 c0       	rjmp	.+0      	; 0x74 <main+0x1e>
+  74:	00 00       	nop
+	Explain the concept of pull up	 
+	*/
+	
+    while(1) 
+    {
+		for (int i = 100 ; i< 250; i++){
+  76:	21 96       	adiw	r28, 0x01	; 1
+  78:	ca 3f       	cpi	r28, 0xFA	; 250
+  7a:	d1 05       	cpc	r29, r1
+  7c:	8c f3       	brlt	.-30     	; 0x60 <main+0xa>
+  7e:	c0 2f       	mov	r28, r16
+  80:	d1 2f       	mov	r29, r17
+  82:	ee cf       	rjmp	.-36     	; 0x60 <main+0xa>
+
+00000084 <_exit>:
+  84:	f8 94       	cli
+
+00000086 <__stop_program>:
+  86:	ff cf       	rjmp	.-2      	; 0x86 <__stop_program>

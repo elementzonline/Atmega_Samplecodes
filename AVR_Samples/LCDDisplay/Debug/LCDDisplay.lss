@@ -1,0 +1,385 @@
+
+LCDDisplay.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000001ba  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         0000000e  00800060  000001ba  0000022e  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .comment      00000030  00000000  00000000  0000023c  2**0
+                  CONTENTS, READONLY
+  3 .debug_aranges 00000088  00000000  00000000  0000026c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  4 .debug_info   00000a0c  00000000  00000000  000002f4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_abbrev 000002be  00000000  00000000  00000d00  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_line   000003cd  00000000  00000000  00000fbe  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_frame  00000118  00000000  00000000  0000138c  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_str    0000025f  00000000  00000000  000014a4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_loc    0000061b  00000000  00000000  00001703  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_ranges 00000068  00000000  00000000  00001d1e  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	12 c0       	rjmp	.+36     	; 0x26 <__ctors_end>
+   2:	24 c0       	rjmp	.+72     	; 0x4c <__bad_interrupt>
+   4:	23 c0       	rjmp	.+70     	; 0x4c <__bad_interrupt>
+   6:	22 c0       	rjmp	.+68     	; 0x4c <__bad_interrupt>
+   8:	21 c0       	rjmp	.+66     	; 0x4c <__bad_interrupt>
+   a:	20 c0       	rjmp	.+64     	; 0x4c <__bad_interrupt>
+   c:	1f c0       	rjmp	.+62     	; 0x4c <__bad_interrupt>
+   e:	1e c0       	rjmp	.+60     	; 0x4c <__bad_interrupt>
+  10:	1d c0       	rjmp	.+58     	; 0x4c <__bad_interrupt>
+  12:	1c c0       	rjmp	.+56     	; 0x4c <__bad_interrupt>
+  14:	1b c0       	rjmp	.+54     	; 0x4c <__bad_interrupt>
+  16:	1a c0       	rjmp	.+52     	; 0x4c <__bad_interrupt>
+  18:	19 c0       	rjmp	.+50     	; 0x4c <__bad_interrupt>
+  1a:	18 c0       	rjmp	.+48     	; 0x4c <__bad_interrupt>
+  1c:	17 c0       	rjmp	.+46     	; 0x4c <__bad_interrupt>
+  1e:	16 c0       	rjmp	.+44     	; 0x4c <__bad_interrupt>
+  20:	15 c0       	rjmp	.+42     	; 0x4c <__bad_interrupt>
+  22:	14 c0       	rjmp	.+40     	; 0x4c <__bad_interrupt>
+  24:	13 c0       	rjmp	.+38     	; 0x4c <__bad_interrupt>
+
+00000026 <__ctors_end>:
+  26:	11 24       	eor	r1, r1
+  28:	1f be       	out	0x3f, r1	; 63
+  2a:	cf e5       	ldi	r28, 0x5F	; 95
+  2c:	d4 e0       	ldi	r29, 0x04	; 4
+  2e:	de bf       	out	0x3e, r29	; 62
+  30:	cd bf       	out	0x3d, r28	; 61
+
+00000032 <__do_copy_data>:
+  32:	10 e0       	ldi	r17, 0x00	; 0
+  34:	a0 e6       	ldi	r26, 0x60	; 96
+  36:	b0 e0       	ldi	r27, 0x00	; 0
+  38:	ea eb       	ldi	r30, 0xBA	; 186
+  3a:	f1 e0       	ldi	r31, 0x01	; 1
+  3c:	02 c0       	rjmp	.+4      	; 0x42 <__SREG__+0x3>
+  3e:	05 90       	lpm	r0, Z+
+  40:	0d 92       	st	X+, r0
+  42:	ae 36       	cpi	r26, 0x6E	; 110
+  44:	b1 07       	cpc	r27, r17
+  46:	d9 f7       	brne	.-10     	; 0x3e <__SP_H__>
+  48:	a8 d0       	rcall	.+336    	; 0x19a <main>
+  4a:	b5 c0       	rjmp	.+362    	; 0x1b6 <_exit>
+
+0000004c <__bad_interrupt>:
+  4c:	d9 cf       	rjmp	.-78     	; 0x0 <__vectors>
+
+0000004e <lcdcmd>:
+	lcddata(data_value1);
+}
+ 
+void lcdcmd(char cmdout)
+{
+	LCD_PORT |= (cmdout|0x00);
+  4e:	92 b3       	in	r25, 0x12	; 18
+  50:	98 2b       	or	r25, r24
+  52:	92 bb       	out	0x12, r25	; 18
+        LCD_PORT &= (cmdout|0x0F);
+  54:	92 b3       	in	r25, 0x12	; 18
+  56:	8f 60       	ori	r24, 0x0F	; 15
+  58:	89 23       	and	r24, r25
+  5a:	82 bb       	out	0x12, r24	; 18
+	LCD_PORT |=en;
+  5c:	92 9a       	sbi	0x12, 2	; 18
+        LCD_PORT &= ~(rs|rw); 
+  5e:	82 b3       	in	r24, 0x12	; 18
+  60:	8c 7f       	andi	r24, 0xFC	; 252
+  62:	82 bb       	out	0x12, r24	; 18
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+  64:	89 ef       	ldi	r24, 0xF9	; 249
+  66:	90 e0       	ldi	r25, 0x00	; 0
+  68:	01 97       	sbiw	r24, 0x01	; 1
+  6a:	f1 f7       	brne	.-4      	; 0x68 <lcdcmd+0x1a>
+  6c:	00 c0       	rjmp	.+0      	; 0x6e <lcdcmd+0x20>
+  6e:	00 00       	nop
+	_delay_ms(1);
+	LCD_PORT &= ~(en|rs|rw);
+  70:	82 b3       	in	r24, 0x12	; 18
+  72:	88 7f       	andi	r24, 0xF8	; 248
+  74:	82 bb       	out	0x12, r24	; 18
+  76:	08 95       	ret
+
+00000078 <dis_cmd>:
+        _delay_ms(200);
+        
+}
+ 
+void dis_cmd(char cmd_value)
+{
+  78:	cf 93       	push	r28
+  7a:	c8 2f       	mov	r28, r24
+	char cmd_value1;
+	
+	cmd_value1 = cmd_value & 0xF0;		//mask lower nibble because PA4-PA7 pins are used. 
+	lcdcmd(cmd_value1);			// send to LCD
+  7c:	80 7f       	andi	r24, 0xF0	; 240
+  7e:	e7 df       	rcall	.-50     	; 0x4e <lcdcmd>
+  80:	83 ec       	ldi	r24, 0xC3	; 195
+  82:	99 e0       	ldi	r25, 0x09	; 9
+  84:	01 97       	sbiw	r24, 0x01	; 1
+  86:	f1 f7       	brne	.-4      	; 0x84 <dis_cmd+0xc>
+  88:	00 c0       	rjmp	.+0      	; 0x8a <dis_cmd+0x12>
+  8a:	00 00       	nop
+        _delay_ms(10);
+	cmd_value1 = ((cmd_value<<4) & 0xF0);	//shift 4-bit and mask
+	lcdcmd(cmd_value1);			// send to LCD
+  8c:	8c 2f       	mov	r24, r28
+  8e:	82 95       	swap	r24
+  90:	80 7f       	andi	r24, 0xF0	; 240
+  92:	dd df       	rcall	.-70     	; 0x4e <lcdcmd>
+}						
+  94:	cf 91       	pop	r28
+  96:	08 95       	ret
+
+00000098 <lcd_init>:
+
+void lcd_init()	// fuction for intialize 
+{
+
+        
+        LCD_PORT_DIR |= 0xFF; //Make LCD port output
+  98:	81 b3       	in	r24, 0x11	; 17
+  9a:	8f ef       	ldi	r24, 0xFF	; 255
+  9c:	81 bb       	out	0x11, r24	; 17
+  9e:	2f e9       	ldi	r18, 0x9F	; 159
+  a0:	86 e8       	ldi	r24, 0x86	; 134
+  a2:	91 e0       	ldi	r25, 0x01	; 1
+  a4:	21 50       	subi	r18, 0x01	; 1
+  a6:	80 40       	sbci	r24, 0x00	; 0
+  a8:	90 40       	sbci	r25, 0x00	; 0
+  aa:	e1 f7       	brne	.-8      	; 0xa4 <lcd_init+0xc>
+  ac:	00 c0       	rjmp	.+0      	; 0xae <lcd_init+0x16>
+  ae:	00 00       	nop
+        _delay_ms(500);
+        dis_cmd(0x33);		//to initialize LCD 
+  b0:	83 e3       	ldi	r24, 0x33	; 51
+  b2:	e2 df       	rcall	.-60     	; 0x78 <dis_cmd>
+  b4:	87 ea       	ldi	r24, 0xA7	; 167
+  b6:	91 e6       	ldi	r25, 0x61	; 97
+  b8:	01 97       	sbiw	r24, 0x01	; 1
+  ba:	f1 f7       	brne	.-4      	; 0xb8 <lcd_init+0x20>
+  bc:	00 c0       	rjmp	.+0      	; 0xbe <lcd_init+0x26>
+  be:	00 00       	nop
+        _delay_ms(100);
+        dis_cmd(0x32);		//to initialize LCD 
+  c0:	82 e3       	ldi	r24, 0x32	; 50
+  c2:	da df       	rcall	.-76     	; 0x78 <dis_cmd>
+  c4:	87 ea       	ldi	r24, 0xA7	; 167
+  c6:	91 e6       	ldi	r25, 0x61	; 97
+  c8:	01 97       	sbiw	r24, 0x01	; 1
+  ca:	f1 f7       	brne	.-4      	; 0xc8 <lcd_init+0x30>
+  cc:	00 c0       	rjmp	.+0      	; 0xce <lcd_init+0x36>
+  ce:	00 00       	nop
+        _delay_ms(100);
+        dis_cmd(0x28);		//to initialize LCD in 2 lines, 5X8 dots and 4bit mode.
+  d0:	88 e2       	ldi	r24, 0x28	; 40
+  d2:	d2 df       	rcall	.-92     	; 0x78 <dis_cmd>
+  d4:	87 ea       	ldi	r24, 0xA7	; 167
+  d6:	91 e6       	ldi	r25, 0x61	; 97
+  d8:	01 97       	sbiw	r24, 0x01	; 1
+  da:	f1 f7       	brne	.-4      	; 0xd8 <lcd_init+0x40>
+  dc:	00 c0       	rjmp	.+0      	; 0xde <lcd_init+0x46>
+  de:	00 00       	nop
+        _delay_ms(100);
+        dis_cmd(0x0C);          // to set entire Display on, cursor on, blinking cursor on
+  e0:	8c e0       	ldi	r24, 0x0C	; 12
+  e2:	ca df       	rcall	.-108    	; 0x78 <dis_cmd>
+  e4:	87 ea       	ldi	r24, 0xA7	; 167
+  e6:	91 e6       	ldi	r25, 0x61	; 97
+  e8:	01 97       	sbiw	r24, 0x01	; 1
+  ea:	f1 f7       	brne	.-4      	; 0xe8 <lcd_init+0x50>
+  ec:	00 c0       	rjmp	.+0      	; 0xee <lcd_init+0x56>
+  ee:	00 00       	nop
+        _delay_ms(100);
+        dis_cmd(0x01);		// clear LCD
+  f0:	81 e0       	ldi	r24, 0x01	; 1
+  f2:	c2 df       	rcall	.-124    	; 0x78 <dis_cmd>
+  f4:	87 ea       	ldi	r24, 0xA7	; 167
+  f6:	91 e6       	ldi	r25, 0x61	; 97
+  f8:	01 97       	sbiw	r24, 0x01	; 1
+  fa:	f1 f7       	brne	.-4      	; 0xf8 <lcd_init+0x60>
+  fc:	00 c0       	rjmp	.+0      	; 0xfe <lcd_init+0x66>
+  fe:	00 00       	nop
+        _delay_ms(100);
+        dis_cmd(0x06);          // to move cursor to right after each character display
+ 100:	86 e0       	ldi	r24, 0x06	; 6
+ 102:	ba df       	rcall	.-140    	; 0x78 <dis_cmd>
+ 104:	87 ea       	ldi	r24, 0xA7	; 167
+ 106:	91 e6       	ldi	r25, 0x61	; 97
+ 108:	01 97       	sbiw	r24, 0x01	; 1
+ 10a:	f1 f7       	brne	.-4      	; 0x108 <lcd_init+0x70>
+ 10c:	00 c0       	rjmp	.+0      	; 0x10e <lcd_init+0x76>
+ 10e:	00 00       	nop
+        _delay_ms(100);
+		dis_cmd(0x02);		// to set DDRAM Address to 0
+ 110:	82 e0       	ldi	r24, 0x02	; 2
+ 112:	b2 df       	rcall	.-156    	; 0x78 <dis_cmd>
+ 114:	8f e4       	ldi	r24, 0x4F	; 79
+ 116:	93 ec       	ldi	r25, 0xC3	; 195
+ 118:	01 97       	sbiw	r24, 0x01	; 1
+ 11a:	f1 f7       	brne	.-4      	; 0x118 <lcd_init+0x80>
+ 11c:	00 c0       	rjmp	.+0      	; 0x11e <lcd_init+0x86>
+ 11e:	00 00       	nop
+ 120:	08 95       	ret
+
+00000122 <lcddata>:
+	LCD_PORT &= ~(en|rs|rw);
+}
+ 
+void lcddata(char dataout)
+{
+        LCD_PORT |= (dataout|0x00);
+ 122:	92 b3       	in	r25, 0x12	; 18
+ 124:	98 2b       	or	r25, r24
+ 126:	92 bb       	out	0x12, r25	; 18
+        LCD_PORT &= (dataout|0x0F);
+ 128:	92 b3       	in	r25, 0x12	; 18
+ 12a:	8f 60       	ori	r24, 0x0F	; 15
+ 12c:	89 23       	and	r24, r25
+ 12e:	82 bb       	out	0x12, r24	; 18
+        LCD_PORT |= rs|en;
+ 130:	82 b3       	in	r24, 0x12	; 18
+ 132:	85 60       	ori	r24, 0x05	; 5
+ 134:	82 bb       	out	0x12, r24	; 18
+        LCD_PORT &= ~rw;
+ 136:	91 98       	cbi	0x12, 1	; 18
+ 138:	89 ef       	ldi	r24, 0xF9	; 249
+ 13a:	90 e0       	ldi	r25, 0x00	; 0
+ 13c:	01 97       	sbiw	r24, 0x01	; 1
+ 13e:	f1 f7       	brne	.-4      	; 0x13c <lcddata+0x1a>
+ 140:	00 c0       	rjmp	.+0      	; 0x142 <lcddata+0x20>
+ 142:	00 00       	nop
+	_delay_ms(1);
+	LCD_PORT |= rs;
+ 144:	90 9a       	sbi	0x12, 0	; 18
+        LCD_PORT &= ~(en|rw);
+ 146:	82 b3       	in	r24, 0x12	; 18
+ 148:	89 7f       	andi	r24, 0xF9	; 249
+ 14a:	82 bb       	out	0x12, r24	; 18
+ 14c:	08 95       	ret
+
+0000014e <dis_data>:
+	lcdcmd(cmd_value1);			// send to LCD
+}						
+ 
+ 
+void dis_data(char data_value)
+{
+ 14e:	cf 93       	push	r28
+ 150:	c8 2f       	mov	r28, r24
+	char data_value1;
+	
+	data_value1=data_value&0xF0;
+	lcddata(data_value1);
+ 152:	80 7f       	andi	r24, 0xF0	; 240
+ 154:	e6 df       	rcall	.-52     	; 0x122 <lcddata>
+ 
+	data_value1=((data_value<<4)&0xF0);
+	lcddata(data_value1);
+ 156:	8c 2f       	mov	r24, r28
+ 158:	82 95       	swap	r24
+ 15a:	80 7f       	andi	r24, 0xF0	; 240
+ 15c:	e2 df       	rcall	.-60     	; 0x122 <lcddata>
+}
+ 15e:	cf 91       	pop	r28
+ 160:	08 95       	ret
+
+00000162 <LCD_write_string_line1>:
+//
+//}
+
+
+void LCD_write_string_line1(char *data0)
+{
+ 162:	cf 93       	push	r28
+ 164:	df 93       	push	r29
+ 166:	ec 01       	movw	r28, r24
+        int jj = 0;
+        dis_cmd(0x80);
+ 168:	80 e8       	ldi	r24, 0x80	; 128
+ 16a:	86 df       	rcall	.-244    	; 0x78 <dis_cmd>
+ 16c:	87 e8       	ldi	r24, 0x87	; 135
+ 16e:	93 e1       	ldi	r25, 0x13	; 19
+ 170:	01 97       	sbiw	r24, 0x01	; 1
+ 172:	f1 f7       	brne	.-4      	; 0x170 <LCD_write_string_line1+0xe>
+ 174:	00 c0       	rjmp	.+0      	; 0x176 <LCD_write_string_line1+0x14>
+ 176:	00 00       	nop
+	_delay_ms(20);
+	while(data0[jj]!='\0')
+ 178:	88 81       	ld	r24, Y
+ 17a:	88 23       	and	r24, r24
+ 17c:	59 f0       	breq	.+22     	; 0x194 <LCD_write_string_line1+0x32>
+ 17e:	21 96       	adiw	r28, 0x01	; 1
+	{
+		dis_data(data0[jj]);
+ 180:	e6 df       	rcall	.-52     	; 0x14e <dis_data>
+ 182:	81 ee       	ldi	r24, 0xE1	; 225
+ 184:	94 e0       	ldi	r25, 0x04	; 4
+ 186:	01 97       	sbiw	r24, 0x01	; 1
+ 188:	f1 f7       	brne	.-4      	; 0x186 <LCD_write_string_line1+0x24>
+ 18a:	00 c0       	rjmp	.+0      	; 0x18c <LCD_write_string_line1+0x2a>
+ 18c:	00 00       	nop
+void LCD_write_string_line1(char *data0)
+{
+        int jj = 0;
+        dis_cmd(0x80);
+	_delay_ms(20);
+	while(data0[jj]!='\0')
+ 18e:	89 91       	ld	r24, Y+
+ 190:	81 11       	cpse	r24, r1
+ 192:	f6 cf       	rjmp	.-20     	; 0x180 <LCD_write_string_line1+0x1e>
+	{
+		dis_data(data0[jj]);
+		_delay_ms(5);
+		jj++;
+	}
+}
+ 194:	df 91       	pop	r29
+ 196:	cf 91       	pop	r28
+ 198:	08 95       	ret
+
+0000019a <main>:
+#include <util/delay.h>
+
+int main(void)
+{
+	//_delay_ms(1000);
+	lcd_init();
+ 19a:	7e df       	rcall	.-260    	; 0x98 <lcd_init>
+ 19c:	2f ef       	ldi	r18, 0xFF	; 255
+ 19e:	89 e6       	ldi	r24, 0x69	; 105
+ 1a0:	98 e1       	ldi	r25, 0x18	; 24
+ 1a2:	21 50       	subi	r18, 0x01	; 1
+ 1a4:	80 40       	sbci	r24, 0x00	; 0
+ 1a6:	90 40       	sbci	r25, 0x00	; 0
+ 1a8:	e1 f7       	brne	.-8      	; 0x1a2 <main+0x8>
+ 1aa:	00 c0       	rjmp	.+0      	; 0x1ac <main+0x12>
+ 1ac:	00 00       	nop
+	_delay_ms(1000);
+	LCD_write_string_line1("Hello World!!");
+ 1ae:	80 e6       	ldi	r24, 0x60	; 96
+ 1b0:	90 e0       	ldi	r25, 0x00	; 0
+ 1b2:	d7 df       	rcall	.-82     	; 0x162 <LCD_write_string_line1>
+ 1b4:	ff cf       	rjmp	.-2      	; 0x1b4 <main+0x1a>
+
+000001b6 <_exit>:
+ 1b6:	f8 94       	cli
+
+000001b8 <__stop_program>:
+ 1b8:	ff cf       	rjmp	.-2      	; 0x1b8 <__stop_program>
